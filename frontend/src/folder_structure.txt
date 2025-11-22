@@ -5,17 +5,35 @@ C:.
 |   folder_structure.txt
 |   index.css
 |   main.tsx
+|   types.d.ts
 |   vite-env.d.ts
 |   
 +---app
 |       rootReducer.ts
 |       store.ts
 |       
++---assets
+|   +---icons
+|   +---images
+|   |       person 3.PNG
+|   |       person1.PNG
+|   |       person13.PNG
+|   |       person5.PNG
+|   |       person6.PNG
+|   |       register_image.jpg
+|   |       
+|   \---logos
+|           studystream logo green 2X.png
+|           studystream logo white 2X.png
+|           studystream logo_icon color 2X.png
+|           studystream logo_icon white 2X.png
+|           
 +---components
 +---features
 +---hooks
 +---pages
 |       Register.tsx
+|       RegisterTest.tsx
 |       
 \---services
         api.ts
