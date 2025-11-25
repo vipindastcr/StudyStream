@@ -8,32 +8,42 @@ C:.
 |   \---use-cases
 |           FindUserByEmail.ts
 |           RegisterUserUseCase.ts
+|           VerifyOtpUseCase.ts
 |           
 +---domain
 |   +---entities
+|   |       PendingUser.ts
 |   |       User.ts
 |   |       
 |   +---repositories
+|   |       IOtpRepository.ts
+|   |       IPendingUserRepository.ts
 |   |       IUserRepository.ts
 |   |       
 |   \---services
+|           IOtpService.ts
 |           IPasswordService.ts
 |           
 +---infrastructure
 |   +---config
 |   |       env.ts
+|   |       redis.ts
 |   |       
 |   +---database
 |   |       connection.ts
 |   |       
 |   +---models
+|   |       PendingUserModel.ts
 |   |       UserModel.ts
 |   |       
 |   +---repositories
+|   |       PendingUserRepositoryImpl.ts
 |   |       UserRepositoryImpl.ts
 |   |       
 |   \---services
 |           BcryptPasswordService.ts
+|           mailService.ts
+|           OtpServiceImpl.ts
 |           
 \---presentation
     +---controllers
