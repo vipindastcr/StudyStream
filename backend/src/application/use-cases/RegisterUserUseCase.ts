@@ -25,18 +25,20 @@ export class RegisterUserUseCase {
   ) {}
 
   async execute(userData: RegisterUserDTO) {
+    const normalizedEmail = userData.email.trim().toLowerCase();
+
     // Check duplicate email
-    const existing = await this.userRepository.findByEmail(userData.email);
+    const existing = await this.userRepository.findByEmail(normalizedEmail);
     if (existing) {
       throw new Error("Email already exists");
     }
 
-    if (!validator.isEmail(userData.email)) {
+    if (!validator.isEmail(normalizedEmail)) {
       throw new Error("Please provide a valid email address");
     }
 
     const existingPending = await this.pendingUserRepository.findByEmail(
-      userData.email
+      normalizedEmail
     );
     if (existingPending) {
       await this.pendingUserRepository.deleteById(existingPending.id);
@@ -59,7 +61,7 @@ export class RegisterUserUseCase {
       uuidv4(),
       userData.first_name,
       userData.last_name,
-      userData.email,
+      normalizedEmail,
       userData.phone_number,
       hashedPassword,
       role,
@@ -70,12 +72,12 @@ export class RegisterUserUseCase {
 
     const savedPending = await this.pendingUserRepository.create(pendingUser);
 
-    await this.otpService.sendOtp(userData.email, otp);
+    await this.otpService.sendOtp(normalizedEmail, otp);
 
     return {
       success: true,
       message: "OTP sent to your email",
-      email: userData.email,
+      email: normalizedEmail,
       pendingId: savedPending.id
     };
   }
