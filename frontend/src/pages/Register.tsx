@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 import Hero from "@/assets/images/register_image.jpg";
 import Logo from "@/assets/logos/studystream logo white 2X.png";
@@ -31,6 +33,7 @@ const registerSchema = z
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function Register() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -70,6 +73,7 @@ export default function Register() {
       });
 
       console.log("Registered user:", res);
+      // After registration, show OTP section and success hint
       setApiSuccess("Registration successful! Check your email for the OTP.");
       setOtpContext({ pendingId: res.pendingId, email: res.email });
       setOtpError(null);
@@ -100,8 +104,13 @@ export default function Register() {
     try {
       const response = await verifyOtp({ pendingId: otpContext.pendingId, otp: otpValue });
       setOtpSuccess(response.message || "Email verified successfully!");
+      // Show green success toast and proceed to Login
+      toast.success('Email verified. You can now log in.', {
+        style: { background: '#16a34a', color: 'white' }
+      });
       setOtpContext(null);
       setOtpValue("");
+      navigate('/login');
     } catch (err: any) {
       console.error("OTP verification error:", err);
       const message =
